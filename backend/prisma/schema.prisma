@@ -1,0 +1,104 @@
+// This is your Prisma schema file for Supabase PostgreSQL integration
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  username      String   @unique
+  email         String?
+  walletAddress String
+  role          String   @default("attendee")
+  isSubscribed  Boolean  @default(false)
+  passwordHash  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  events        Event[]
+  tickets       Ticket[]
+
+  @@map("users")
+}
+
+model Event {
+  id                Int      @id @default(autoincrement())
+  title             String
+  description       String
+  date              String
+  venue             String
+  category          String   @default("Concert")
+  organizer         String
+  organizerWallet   String
+  priceGeneral      Float
+  priceVIP          Float
+  maxTickets        Int
+  ticketsSold       Int      @default(0)
+  settled           Boolean  @default(false)
+  totalFunds        Float    @default(0)
+  stellarContractId String?
+  userId            String?
+  user              User?    @relation(fields: [userId], references: [id])
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  tickets           Ticket[]
+
+  @@map("events")
+}
+
+model Ticket {
+  id            Int      @id @default(autoincrement())
+  eventId       Int
+  category      String   @default("General")
+  owner         String
+  ownerWallet   String
+  qrCode        String   @unique
+  status        String   @default("ISSUED")
+  price         Float
+  txHash        String
+  timestamp     DateTime @default(now())
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id])
+  event         Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@map("tickets")
+}
+
+model WebhookLog {
+  id        String   @id @default(uuid())
+  plugin    String
+  action    String
+  payload   Json
+  timestamp DateTime @default(now())
+
+  @@map("webhook_logs")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  details   String
+  timestamp DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+model PremiumScanLog {
+  id                 Int     @id @default(autoincrement())
+  ticketId           Int     @unique
+  eventId            Int
+  scannedAt          String?
+  scannedBy          String?
+  deviceIp           String
+  latitude           Float
+  longitude          Float
+  humidityPercentage Float
+  temperatureCelsius Float
+
+  @@map("premium_scan_logs")
+}
