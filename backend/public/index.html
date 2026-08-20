@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Ticket Star API</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #fbfbfd;
+        --panel: #ffffff;
+        --border: #e4e4e9;
+        --text: #17171c;
+        --muted: #6b6b78;
+        --accent: #5b4bdb;
+        --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0d0d11;
+          --panel: #16161c;
+          --border: #26262f;
+          --text: #f2f2f5;
+          --muted: #9a9aa8;
+          --accent: #9b8cff;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 3rem 1.25rem 4rem;
+        background: var(--bg);
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      main { max-width: 46rem; margin: 0 auto; }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.3rem 0.7rem;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--panel);
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+      .dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: #22c55e;
+      }
+      h1 { font-size: 1.9rem; letter-spacing: -0.02em; margin: 1.25rem 0 0.5rem; }
+      .lede { color: var(--muted); margin: 0 0 2.5rem; }
+      h2 {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin: 2.5rem 0 0.75rem;
+        font-weight: 600;
+      }
+      ul { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: 0.7rem; overflow: hidden; background: var(--panel); }
+      li { display: flex; gap: 0.9rem; align-items: baseline; padding: 0.7rem 1rem; border-top: 1px solid var(--border); }
+      li:first-child { border-top: 0; }
+      code { font-family: var(--mono); font-size: 0.87rem; }
+      .path { color: var(--accent); word-break: break-word; }
+      .desc { color: var(--muted); font-size: 0.87rem; margin-left: auto; text-align: right; }
+      footer { margin-top: 3rem; color: var(--muted); font-size: 0.85rem; }
+      a { color: var(--accent); }
+      @media (max-width: 34rem) {
+        li { flex-direction: column; gap: 0.2rem; }
+        .desc { margin-left: 0; text-align: left; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <span class="badge"><span class="dot"></span> API online</span>
+      <h1>Ticket Star API</h1>
+      <p class="lede">
+        NestJS service backing the Ticket Star event ticketing and attendance platform.
+        Every route is served under the <code>/api</code> prefix.
+      </p>
+
+      <h2>Endpoint groups</h2>
+      <ul>
+        <li><code class="path">/api/auth</code><span class="desc">Signup, login, Stellar wallet login, password reset</span></li>
+        <li><code class="path">/api/events</code><span class="desc">Create, browse, update and settle events</span></li>
+        <li><code class="path">/api/tickets</code><span class="desc">Purchase, scan, refund and telemetry</span></li>
+        <li><code class="path">/api/wallet</code><span class="desc">Connect wallets, balances, trustlines</span></li>
+        <li><code class="path">/api/analytics</code><span class="desc">Revenue, attendance and user metrics</span></li>
+        <li><code class="path">/api/notifications</code><span class="desc">Notification feed and read state</span></li>
+        <li><code class="path">/api/integrations/corsair</code><span class="desc">Webhooks and audit logs</span></li>
+      </ul>
+
+      <h2>Authentication</h2>
+      <ul>
+        <li><code class="path">Authorization: Bearer &lt;token&gt;</code><span class="desc">Required on every non-public route</span></li>
+      </ul>
+
+      <footer>
+        This is the API origin — there is no UI here. Open the Ticket Star web app to use the product.
+      </footer>
+    </main>
+  </body>
+</html>
